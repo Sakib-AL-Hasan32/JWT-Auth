@@ -29,6 +29,12 @@ public class User {
     @Column(unique = true, nullable = false, length = 100)
     private String email;
 
+    @Column(nullable = false, length = 100)
+    private String  firstName;
+
+    @Column(nullable = false, length = 100)
+    private String lastName;
+
     @Builder.Default
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
