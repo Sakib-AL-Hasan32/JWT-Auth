@@ -1,4 +1,4 @@
-package com.jwt_auth.dto.response;
+package com.jwt_auth.dto.response.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

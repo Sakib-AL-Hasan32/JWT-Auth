@@ -2,16 +2,24 @@ package com.jwt_auth.service.impl;
 
 import com.jwt_auth.constants.ApiMessages;
 import com.jwt_auth.constants.RoleNames;
+import com.jwt_auth.dto.request.LoginRequest;
 import com.jwt_auth.dto.request.RegisterRequest;
-import com.jwt_auth.dto.response.ApiResponse;
+import com.jwt_auth.dto.response.common.ApiResponse;
+import com.jwt_auth.dto.response.LoginResponse;
+import com.jwt_auth.dto.response.RegisterResponse;
 import com.jwt_auth.entity.Role;
 import com.jwt_auth.entity.User;
 import com.jwt_auth.exception.DuplicateResourceException;
 import com.jwt_auth.exception.ResourceNotFoundException;
 import com.jwt_auth.repository.RoleRepository;
 import com.jwt_auth.repository.UserRepository;
+import com.jwt_auth.security.JwtTokenProvider;
 import com.jwt_auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,9 +32,11 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public ApiResponse<Void> register(RegisterRequest registerRequest) {
+    public ApiResponse<RegisterResponse> register(RegisterRequest registerRequest) {
         validateDuplicateUser(registerRequest);
 
         Role userRole = roleRepository.findByName(RoleNames.USER)
@@ -43,8 +53,31 @@ public class AuthServiceImpl implements AuthService {
 
         userRepository.save(user);
 
-        return ApiResponse.<Void>builder()
+        return ApiResponse.<RegisterResponse>builder()
+                .data(new RegisterResponse(user.getId(), user.getUsername()))
                 .message(ApiMessages.Success.USER_REGISTERED)
+                .build();
+    }
+
+    @Override
+    public ApiResponse<LoginResponse> login(LoginRequest loginRequest) {
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password())
+        );
+
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(ApiMessages.Error.USER_NOT_FOUND));
+        Set<String> roles = user.getRoles().stream()
+                .map(Role::getName)
+                .collect(java.util.stream.Collectors.toCollection(LinkedHashSet::new));
+
+        String jwtToken = jwtTokenProvider.generateAccessToken(user);
+
+        return ApiResponse.<LoginResponse>builder()
+                .data(new LoginResponse(jwtToken, user.getUsername(), roles))
+                .message(ApiMessages.Success.USER_LOGGED_IN)
                 .build();
     }
 
