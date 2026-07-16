@@ -20,6 +20,7 @@ public class ProfileController {
     private final ProfileService profileService;
 
     @GetMapping
+
     public ResponseEntity<ApiResponse<ProfileResponse>> getProfile(@AuthenticationPrincipal UserDetails currentUser) {
         return ResponseEntity.status(HttpStatus.OK).body(profileService.getProfile(currentUser.getUsername()));
     }

@@ -1,8 +1,6 @@
 package com.jwt_auth.security;
 
-import com.jwt_auth.constants.ApiEndpoints;
 import com.jwt_auth.constants.PublicEndpoints;
-import com.jwt_auth.constants.RoleNames;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,6 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
@@ -31,8 +31,6 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PublicEndpoints.PUBLIC_ENDPOINTS).permitAll()
-                        .requestMatchers(ApiEndpoints.Profile.BASE).hasAuthority(RoleNames.USER)
-                        .requestMatchers(ApiEndpoints.Product.BASE).hasAuthority(RoleNames.ADMIN)
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

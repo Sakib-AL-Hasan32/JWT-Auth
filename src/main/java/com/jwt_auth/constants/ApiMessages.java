@@ -12,6 +12,7 @@ public final class ApiMessages {
         public static final String USER_LOGGED_IN = "User logged in successfully";
         public static final String PROFILE_FETCHED = "Successfully fetched profile";
         public static final String PRODUCT_ADDED = "Product added successfully";
+        public static final String FETCHED_ALL_PRODUCTS = "Successfully fetched all products";
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)

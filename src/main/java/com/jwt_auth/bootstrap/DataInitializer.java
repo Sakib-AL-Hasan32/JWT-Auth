@@ -9,6 +9,7 @@ import com.jwt_auth.entity.User;
 import com.jwt_auth.repository.PermissionRepository;
 import com.jwt_auth.repository.RoleRepository;
 import com.jwt_auth.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.boot.CommandLineRunner;
@@ -27,29 +28,25 @@ public class DataInitializer implements CommandLineRunner {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public void run(String @NonNull ... args) {
+
+        Permission profileRead = createPermissionIfNotExists(PermissionNames.PROFILE_READ);
+        Permission addProduct = createPermissionIfNotExists(PermissionNames.ADD_PRODUCT);
+        Permission getAllProduct = createPermissionIfNotExists(PermissionNames.GET_ALL_PRODUCT);
+        // Add New Permissions
 
         Role userRole = createRoleIfNotExists(RoleNames.USER);
         Role adminRole = createRoleIfNotExists(RoleNames.ADMIN);
         // Add New Roles
 
-        Permission createUser = createPermissionIfNotExists(PermissionNames.CREATE_USER);
-        Permission userRead = createPermissionIfNotExists(PermissionNames.USER_READ);
-        Permission userUpdate = createPermissionIfNotExists(PermissionNames.USER_UPDATE);
-        Permission userDelete = createPermissionIfNotExists(PermissionNames.USER_DELETE);
-        Permission profileRead = createPermissionIfNotExists(PermissionNames.PROFILE_READ);
-        // Add New Permissions
-
-        assignPermission(userRole, userRead);
-        assignPermission(userRole, userUpdate);
         assignPermission(userRole, profileRead);
+        assignPermission(userRole, getAllProduct);
         // Assign More Permission To User
 
-        assignPermission(adminRole, createUser);
-        assignPermission(adminRole, userRead);
-        assignPermission(adminRole, userUpdate);
-        assignPermission(adminRole, userDelete);
         assignPermission(adminRole, profileRead);
+        assignPermission(adminRole, addProduct);
+        assignPermission(adminRole, getAllProduct);
         // Assign More Permission To Admin
 
         createAdminIfNotExists(adminRole);
