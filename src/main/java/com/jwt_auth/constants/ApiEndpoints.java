@@ -19,4 +19,10 @@ public final class ApiEndpoints {
     public static final class Profile {
         public static final String BASE = API_VERSION + "/profile";
     }
+
+    @NoArgsConstructor(access = lombok.AccessLevel.PRIVATE)
+    public static final class Product {
+        public static final String BASE = API_VERSION + "/product";
+        public static final String ADD_PRODUCT = "/addProduct";
+    }
 }

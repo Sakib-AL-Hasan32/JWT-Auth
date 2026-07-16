@@ -1,0 +1,27 @@
+package com.jwt_auth.controller;
+
+import com.jwt_auth.constants.ApiEndpoints;
+import com.jwt_auth.dto.request.ProductRequest;
+import com.jwt_auth.dto.response.ProductResponse;
+import com.jwt_auth.dto.response.common.ApiResponse;
+import com.jwt_auth.service.ProductService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping(ApiEndpoints.Product.BASE)
+public class ProductController {
+    private final ProductService productService;
+
+    @PostMapping(ApiEndpoints.Product.ADD_PRODUCT)
+    public ResponseEntity<ApiResponse<ProductResponse>> addProduct(@Valid @RequestBody ProductRequest productRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(productService.addProduct(productRequest));
+    }
+}

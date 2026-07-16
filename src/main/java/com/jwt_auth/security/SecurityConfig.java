@@ -32,6 +32,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PublicEndpoints.PUBLIC_ENDPOINTS).permitAll()
                         .requestMatchers(ApiEndpoints.Profile.BASE).hasAuthority(RoleNames.USER)
+                        .requestMatchers(ApiEndpoints.Product.BASE).hasAuthority(RoleNames.ADMIN)
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
