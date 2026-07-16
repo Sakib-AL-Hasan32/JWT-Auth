@@ -2,9 +2,11 @@ package com.jwt_auth.security;
 
 import com.jwt_auth.entity.Role;
 import com.jwt_auth.entity.User;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -15,7 +17,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 
 @Component
-public class JwtTokenProvider {
+public class JwtTokenService {
 
     @Value("${jwt.secret-key}")
     private String mySecretKey;
@@ -45,5 +47,18 @@ public class JwtTokenProvider {
                 .expiration(expiresAt)
                 .signWith(getJwtSecretKey())
                 .compact();
+    }
+
+    public String getUsernameFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(getJwtSecretKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return claims.getSubject();
+    }
+
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        return getUsernameFromToken(token).equals(userDetails.getUsername());
     }
 }

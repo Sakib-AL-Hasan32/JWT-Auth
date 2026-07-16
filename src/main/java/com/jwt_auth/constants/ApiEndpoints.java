@@ -16,7 +16,7 @@ public final class ApiEndpoints {
     }
 
     @NoArgsConstructor(access = lombok.AccessLevel.PRIVATE)
-    public static final class Admin {
-
+    public static final class Profile {
+        public static final String BASE = API_VERSION + "/profile";
     }
 }

@@ -13,7 +13,7 @@ import com.jwt_auth.exception.DuplicateResourceException;
 import com.jwt_auth.exception.ResourceNotFoundException;
 import com.jwt_auth.repository.RoleRepository;
 import com.jwt_auth.repository.UserRepository;
-import com.jwt_auth.security.JwtTokenProvider;
+import com.jwt_auth.security.JwtTokenService;
 import com.jwt_auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,7 +33,7 @@ public class AuthServiceImpl implements AuthService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenService jwtTokenService;
 
     @Override
     public ApiResponse<RegisterResponse> register(RegisterRequest registerRequest) {
@@ -73,7 +73,7 @@ public class AuthServiceImpl implements AuthService {
                 .map(Role::getName)
                 .collect(java.util.stream.Collectors.toCollection(LinkedHashSet::new));
 
-        String jwtToken = jwtTokenProvider.generateAccessToken(user);
+        String jwtToken = jwtTokenService.generateAccessToken(user);
 
         return ApiResponse.<LoginResponse>builder()
                 .data(new LoginResponse(jwtToken, user.getUsername(), roles))

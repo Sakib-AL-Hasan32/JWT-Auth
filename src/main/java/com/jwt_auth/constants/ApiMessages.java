@@ -10,6 +10,7 @@ public final class ApiMessages {
     public static final class Success {
         public static final String USER_REGISTERED = "User registered successfully";
         public static final String USER_LOGGED_IN = "User logged in successfully";
+        public static final String PROFILE_FETCHED = "Successfully fetched profile";
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)

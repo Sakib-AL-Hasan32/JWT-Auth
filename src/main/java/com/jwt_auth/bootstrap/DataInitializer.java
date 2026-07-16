@@ -31,21 +31,29 @@ public class DataInitializer implements CommandLineRunner {
 
         Role userRole = createRoleIfNotExists(RoleNames.USER);
         Role adminRole = createRoleIfNotExists(RoleNames.ADMIN);
+        // Add New Roles
 
         Permission createUser = createPermissionIfNotExists(PermissionNames.CREATE_USER);
         Permission userRead = createPermissionIfNotExists(PermissionNames.USER_READ);
         Permission userUpdate = createPermissionIfNotExists(PermissionNames.USER_UPDATE);
         Permission userDelete = createPermissionIfNotExists(PermissionNames.USER_DELETE);
+        Permission profileRead = createPermissionIfNotExists(PermissionNames.PROFILE_READ);
+        // Add New Permissions
 
         assignPermission(userRole, userRead);
         assignPermission(userRole, userUpdate);
+        assignPermission(userRole, profileRead);
+        // Assign More Permission To User
 
         assignPermission(adminRole, createUser);
         assignPermission(adminRole, userRead);
         assignPermission(adminRole, userUpdate);
         assignPermission(adminRole, userDelete);
+        assignPermission(adminRole, profileRead);
+        // Assign More Permission To Admin
 
         createAdminIfNotExists(adminRole);
+        // Create New Admin
     }
 
     private Role createRoleIfNotExists(String roleName) {
@@ -79,16 +87,16 @@ public class DataInitializer implements CommandLineRunner {
 
     private void createAdminIfNotExists(Role adminRole) {
 
-        if (userRepository.existsByUsername(AdminCredentials.ADMIN_USERNAME)) {
+        if (userRepository.existsByUsername(AdminCredentials.Admin1.ADMIN_USERNAME)) {
             return;
         }
 
         User admin = User.builder()
-                .firstName(AdminCredentials.ADMIN_FIRST_NAME)
-                .lastName(AdminCredentials.ADMIN_LAST_NAME)
-                .username(AdminCredentials.ADMIN_USERNAME)
-                .email(AdminCredentials.ADMIN_EMAIL)
-                .password(passwordEncoder.encode(AdminCredentials.ADMIN_PASSWORD))
+                .firstName(AdminCredentials.Admin1.ADMIN_FIRST_NAME)
+                .lastName(AdminCredentials.Admin1.ADMIN_LAST_NAME)
+                .username(AdminCredentials.Admin1.ADMIN_USERNAME)
+                .email(AdminCredentials.Admin1.ADMIN_EMAIL)
+                .password(passwordEncoder.encode(AdminCredentials.Admin1.ADMIN_PASSWORD))
                 .roles(Set.of(adminRole))
                 .build();
 
