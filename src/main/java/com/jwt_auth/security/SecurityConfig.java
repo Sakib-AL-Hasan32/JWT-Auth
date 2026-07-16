@@ -1,7 +1,6 @@
 package com.jwt_auth.security;
 
 import com.jwt_auth.constants.PublicEndpoints;
-import com.jwt_auth.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

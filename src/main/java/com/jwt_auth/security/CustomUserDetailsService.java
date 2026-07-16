@@ -1,4 +1,4 @@
-package com.jwt_auth.service;
+package com.jwt_auth.security;
 
 import com.jwt_auth.entity.User;
 import org.springframework.security.core.userdetails.UserDetailsService;

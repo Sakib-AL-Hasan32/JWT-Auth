@@ -5,7 +5,6 @@ import com.jwt_auth.entity.Permission;
 import com.jwt_auth.entity.Role;
 import com.jwt_auth.entity.User;
 import com.jwt_auth.repository.UserRepository;
-import com.jwt_auth.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NullMarked;
 import org.springframework.security.core.GrantedAuthority;
