@@ -12,4 +12,5 @@ public final class PermissionNames {
     public static final String GET_PRODUCT_BY_NAME = "GET_PRODUCT_BY_NAME";
     public static final String UPDATE_PRODUCT = "UPDATE_PRODUCT";
     public static final String DELETE_PRODUCT = "DELETE_PRODUCT";
+    public static final String GET_ALL_USERS = "GET_ALL_USERS";
 }

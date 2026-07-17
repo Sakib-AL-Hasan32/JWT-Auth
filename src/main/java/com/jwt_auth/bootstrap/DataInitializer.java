@@ -45,6 +45,7 @@ public class DataInitializer implements CommandLineRunner {
         Permission getProductByName = createPermissionIfNotExists(PermissionNames.GET_PRODUCT_BY_NAME);
         Permission updateProduct = createPermissionIfNotExists(PermissionNames.UPDATE_PRODUCT);
         Permission deleteProduct = createPermissionIfNotExists(PermissionNames.DELETE_PRODUCT);
+        Permission getAllUsers = createPermissionIfNotExists(PermissionNames.GET_ALL_USERS);
 
         // ============================================ //
 
@@ -57,6 +58,7 @@ public class DataInitializer implements CommandLineRunner {
 
         Role userRole = createRoleIfNotExists(RoleNames.USER);
         Role adminRole = createRoleIfNotExists(RoleNames.ADMIN);
+        Role managerRole = createRoleIfNotExists(RoleNames.MANAGER);
 
         // ============================================ //
 
@@ -88,6 +90,24 @@ public class DataInitializer implements CommandLineRunner {
         assignPermission(adminRole, getProductByName);
         assignPermission(adminRole, updateProduct);
         assignPermission(adminRole, deleteProduct);
+        assignPermission(adminRole, getAllUsers);
+
+        // ============================================ //
+
+
+
+
+        // ============================================ //
+        // =========== MANAGER PERMISSIONS ============ //
+        // ============================================ //
+
+        assignPermission(managerRole, profileRead);
+        assignPermission(managerRole, addProduct);
+        assignPermission(managerRole, getAllProduct);
+        assignPermission(managerRole, getProductById);
+        assignPermission(managerRole, getProductByName);
+        assignPermission(managerRole, updateProduct);
+        assignPermission(managerRole, getAllUsers);
 
         // ============================================ //
 
