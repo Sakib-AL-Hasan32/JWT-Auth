@@ -3,6 +3,7 @@ package com.jwt_auth.service.impl;
 import com.jwt_auth.constants.ApiMessages;
 import com.jwt_auth.constants.PermissionNames;
 import com.jwt_auth.dto.request.ProductRequest;
+import com.jwt_auth.dto.request.SearchProductRequest;
 import com.jwt_auth.dto.response.ProductResponse;
 import com.jwt_auth.dto.response.common.ApiResponse;
 import com.jwt_auth.entity.Product;
@@ -71,10 +72,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @PreAuthorize("hasAuthority('" + PermissionNames.GET_PRODUCT_BY_ID + "')")
     public ApiResponse<ProductResponse> getProductById(Long id) {
-        Product product = productRepository.findById(id).orElse(null);
-        if (product == null) {
-            throw new ResourceNotFoundException(ApiMessages.Error.ROLE_NOT_FOUND);
-        }
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(ApiMessages.Error.PRODUCT_NOT_FOUND));
         return ApiResponse.<ProductResponse>builder()
                 .data(new ProductResponse(
                         product.getId(),
@@ -85,6 +84,31 @@ public class ProductServiceImpl implements ProductService {
                         product.getStock())
                 )
                 .message(ApiMessages.Success.PRODUCT_FETCHED_BY_ID)
+                .build();
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('" + PermissionNames.GET_PRODUCT_BY_NAME + "')")
+    public ApiResponse<List<ProductResponse>> getProductByName(SearchProductRequest searchProductRequest) {
+        List<Product> productList = productRepository.findByNameContainingIgnoreCase(searchProductRequest.name());
+        if(productList.isEmpty()) {
+            throw new ResourceNotFoundException(ApiMessages.Error.PRODUCT_NOT_FOUND);
+        }
+        List<ProductResponse> responseList = new ArrayList<>();
+        for(Product product : productList) {
+            ProductResponse productResponse = new ProductResponse(
+                    product.getId(),
+                    product.getName(),
+                    product.getDescription(),
+                    product.getQuantity(),
+                    product.getPrice(),
+                    product.getStock()
+            );
+            responseList.add(productResponse);
+        }
+        return ApiResponse.<List<ProductResponse>>builder()
+                .data(responseList)
+                .message(ApiMessages.Success.PPRDUCT_FETCHED_BY_NAME)
                 .build();
     }
 }
