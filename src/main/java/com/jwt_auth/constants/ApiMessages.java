@@ -11,13 +11,15 @@ public final class ApiMessages {
         public static final String USER_REGISTERED = "User registered successfully";
         public static final String USER_LOGGED_IN = "User logged in successfully";
         public static final String PROFILE_FETCHED = "Successfully fetched profile";
+        public static final String FETCHED_ALL_USERS = "Successfully fetched all users";
+        public static final String FETCHED_USER_BY_ID = "Successfully fetched user by id";
+
         public static final String PRODUCT_ADDED = "Product added successfully";
         public static final String FETCHED_ALL_PRODUCTS = "Successfully fetched all products";
         public static final String PRODUCT_FETCHED_BY_ID = "Successfully fetched product by id";
         public static final String PRODUCT_FETCHED_BY_NAME = "Successfully fetched product by name";
         public static final String PRODUCT_UPDATED = "Product updated successfully";
         public static final String PRODUCT_DELETED = "Product deleted successfully";
-        public static final String FETCHED_ALL_USERS = "Successfully fetched all products";
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
