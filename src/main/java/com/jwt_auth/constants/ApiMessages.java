@@ -14,7 +14,8 @@ public final class ApiMessages {
         public static final String PRODUCT_ADDED = "Product added successfully";
         public static final String FETCHED_ALL_PRODUCTS = "Successfully fetched all products";
         public static final String PRODUCT_FETCHED_BY_ID = "Successfully fetched product by id";
-        public static final String PPRDUCT_FETCHED_BY_NAME = "Successfully fetched product by name";
+        public static final String PRODUCT_FETCHED_BY_NAME = "Successfully fetched product by name";
+        public static final String PRODUCT_UPDATED = "Product updated successfully";
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)

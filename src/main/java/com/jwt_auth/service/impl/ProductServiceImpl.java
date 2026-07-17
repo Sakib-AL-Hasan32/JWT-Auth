@@ -108,7 +108,31 @@ public class ProductServiceImpl implements ProductService {
         }
         return ApiResponse.<List<ProductResponse>>builder()
                 .data(responseList)
-                .message(ApiMessages.Success.PPRDUCT_FETCHED_BY_NAME)
+                .message(ApiMessages.Success.PRODUCT_FETCHED_BY_NAME)
+                .build();
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('" + PermissionNames.UPDATE_PRODUCT + "')")
+    public ApiResponse<ProductResponse> updateProduct(ProductRequest productRequest, Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(ApiMessages.Error.PRODUCT_NOT_FOUND));
+        product.setName(productRequest.name());
+        product.setDescription(productRequest.description());
+        product.setQuantity(productRequest.quantity());
+        product.setPrice(productRequest.price());
+        product.setStock(productRequest.stock());
+        productRepository.save(product);
+        return ApiResponse.<ProductResponse>builder()
+                .data(new ProductResponse(
+                        product.getId(),
+                        product.getName(),
+                        product.getDescription(),
+                        product.getQuantity(),
+                        product.getPrice(),
+                        product.getStock()
+                ))
+                .message(ApiMessages.Success.PRODUCT_UPDATED)
                 .build();
     }
 }

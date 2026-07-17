@@ -1,7 +1,6 @@
 package com.jwt_auth.controller;
 
 import com.jwt_auth.constants.ApiEndpoints;
-import com.jwt_auth.constants.ApiMessages;
 import com.jwt_auth.dto.request.ProductRequest;
 import com.jwt_auth.dto.request.SearchProductRequest;
 import com.jwt_auth.dto.response.ProductResponse;
@@ -39,5 +38,11 @@ public class ProductController {
     @PostMapping(ApiEndpoints.Product.NAME)
     public ResponseEntity<ApiResponse<List<ProductResponse>>> getProductByName (@Valid @RequestBody SearchProductRequest searchProductRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(productService.getProductByName(searchProductRequest));
+    }
+
+    @PutMapping(ApiEndpoints.Product.ID)
+    public ResponseEntity<ApiResponse<ProductResponse>> updateProduct (@Valid @RequestBody ProductRequest productRequest,
+                                                                       @PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.updateProduct(productRequest, id));
     }
 }

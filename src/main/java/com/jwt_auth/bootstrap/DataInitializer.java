@@ -43,6 +43,7 @@ public class DataInitializer implements CommandLineRunner {
         Permission getAllProduct = createPermissionIfNotExists(PermissionNames.GET_ALL_PRODUCT);
         Permission getProductById = createPermissionIfNotExists(PermissionNames.GET_PRODUCT_BY_ID);
         Permission getProductByName = createPermissionIfNotExists(PermissionNames.GET_PRODUCT_BY_NAME);
+        Permission updateProduct = createPermissionIfNotExists(PermissionNames.UPDATE_PRODUCT);
 
         // ============================================ //
 
@@ -84,6 +85,7 @@ public class DataInitializer implements CommandLineRunner {
         assignPermission(adminRole, getAllProduct);
         assignPermission(adminRole, getProductById);
         assignPermission(adminRole, getProductByName);
+        assignPermission(adminRole, updateProduct);
 
         // ============================================ //
 

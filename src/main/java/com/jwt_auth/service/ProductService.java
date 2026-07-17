@@ -1,5 +1,6 @@
 package com.jwt_auth.service;
 
+import com.jwt_auth.constants.ApiMessages;
 import com.jwt_auth.dto.request.ProductRequest;
 import com.jwt_auth.dto.request.SearchProductRequest;
 import com.jwt_auth.dto.response.ProductResponse;
@@ -12,4 +13,5 @@ public interface ProductService {
     ApiResponse<List<ProductResponse>> getAllProducts();
     ApiResponse<ProductResponse> getProductById (Long id);
     ApiResponse<List<ProductResponse>> getProductByName (SearchProductRequest searchProductRequest);
+    ApiResponse<ProductResponse> updateProduct (ProductRequest productRequest, Long id);
 }
