@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -133,6 +134,18 @@ public class ProductServiceImpl implements ProductService {
                         product.getStock()
                 ))
                 .message(ApiMessages.Success.PRODUCT_UPDATED)
+                .build();
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('" + PermissionNames.DELETE_PRODUCT + "')")
+    public ApiResponse<Map<String, Long>> deleteProduct(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(ApiMessages.Error.PRODUCT_NOT_FOUND));
+        productRepository.delete(product);
+        return ApiResponse.<Map<String, Long>>builder()
+                .data(Map.of("Product ID: ", product.getId()))
+                .message(ApiMessages.Success.PRODUCT_DELETED)
                 .build();
     }
 }

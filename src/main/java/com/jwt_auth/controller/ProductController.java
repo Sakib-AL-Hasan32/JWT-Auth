@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,5 +45,10 @@ public class ProductController {
     public ResponseEntity<ApiResponse<ProductResponse>> updateProduct (@Valid @RequestBody ProductRequest productRequest,
                                                                        @PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(productService.updateProduct(productRequest, id));
+    }
+
+    @DeleteMapping(ApiEndpoints.Product.ID)
+    public ResponseEntity<ApiResponse<Map<String, Long>>> deleteProduct (@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.deleteProduct(id));
     }
 }

@@ -7,6 +7,7 @@ import com.jwt_auth.dto.response.ProductResponse;
 import com.jwt_auth.dto.response.common.ApiResponse;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProductService {
     ApiResponse<ProductResponse> addProduct(ProductRequest productRequest);
@@ -14,4 +15,5 @@ public interface ProductService {
     ApiResponse<ProductResponse> getProductById (Long id);
     ApiResponse<List<ProductResponse>> getProductByName (SearchProductRequest searchProductRequest);
     ApiResponse<ProductResponse> updateProduct (ProductRequest productRequest, Long id);
+    ApiResponse<Map<String, Long>> deleteProduct(Long id);
 }
