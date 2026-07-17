@@ -6,6 +6,7 @@ import com.jwt_auth.dto.request.ProductRequest;
 import com.jwt_auth.dto.response.ProductResponse;
 import com.jwt_auth.dto.response.common.ApiResponse;
 import com.jwt_auth.entity.Product;
+import com.jwt_auth.exception.ResourceNotFoundException;
 import com.jwt_auth.repository.ProductRepository;
 import com.jwt_auth.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class ProductServiceImpl implements ProductService {
 
         return ApiResponse.<ProductResponse>builder()
                 .data(new ProductResponse(
+                        product.getId(),
                         productRequest.name(),
                         productRequest.description(),
                         productRequest.quantity(),
@@ -51,6 +53,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductResponse> productResponseList = new ArrayList<>();
         for(Product product : products) {
             ProductResponse productResponse = new ProductResponse(
+                    product.getId(),
                     product.getName(),
                     product.getDescription(),
                     product.getQuantity(),
@@ -62,6 +65,26 @@ public class ProductServiceImpl implements ProductService {
         return ApiResponse.<List<ProductResponse>>builder()
                 .data(productResponseList)
                 .message(ApiMessages.Success.FETCHED_ALL_PRODUCTS)
+                .build();
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('" + PermissionNames.GET_PRODUCT_BY_ID + "')")
+    public ApiResponse<ProductResponse> getProductById(Long id) {
+        Product product = productRepository.findById(id).orElse(null);
+        if (product == null) {
+            throw new ResourceNotFoundException(ApiMessages.Error.ROLE_NOT_FOUND);
+        }
+        return ApiResponse.<ProductResponse>builder()
+                .data(new ProductResponse(
+                        product.getId(),
+                        product.getName(),
+                        product.getDescription(),
+                        product.getQuantity(),
+                        product.getPrice(),
+                        product.getStock())
+                )
+                .message(ApiMessages.Success.PRODUCT_FETCHED_BY_ID)
                 .build();
     }
 }

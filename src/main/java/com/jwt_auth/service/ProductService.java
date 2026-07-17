@@ -9,4 +9,5 @@ import java.util.List;
 public interface ProductService {
     ApiResponse<ProductResponse> addProduct(ProductRequest productRequest);
     ApiResponse<List<ProductResponse>> getAllProducts();
+    ApiResponse<ProductResponse> getProductById (Long id);
 }

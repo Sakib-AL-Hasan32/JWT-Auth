@@ -28,4 +28,9 @@ public class ProductController {
     public ResponseEntity<ApiResponse<List<ProductResponse>>> getAllProducts () {
         return ResponseEntity.status(HttpStatus.FOUND).body(productService.getAllProducts());
     }
+
+    @GetMapping(ApiEndpoints.Product.ID)
+    public ResponseEntity<ApiResponse<ProductResponse>> getProductById (@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.FOUND).body(productService.getProductById(id));
+    }
 }

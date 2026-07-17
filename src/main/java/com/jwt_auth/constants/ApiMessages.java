@@ -13,12 +13,14 @@ public final class ApiMessages {
         public static final String PROFILE_FETCHED = "Successfully fetched profile";
         public static final String PRODUCT_ADDED = "Product added successfully";
         public static final String FETCHED_ALL_PRODUCTS = "Successfully fetched all products";
+        public static final String PRODUCT_FETCHED_BY_ID = "Successfully fetched product by id";
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class Error {
         public static final String ROLE_NOT_FOUND = "Role not found";
         public static final String USER_NOT_FOUND = "User not found";
+        public static final String PRODUCT_NOT_FOUND = "Product not found";
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)

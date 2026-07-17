@@ -24,5 +24,6 @@ public final class ApiEndpoints {
     public static final class Product {
         public static final String BASE = API_VERSION + "/product";
         public static final String ADD_PRODUCT = "/addProduct";
+        public static final String ID = "/{id}";
     }
 }

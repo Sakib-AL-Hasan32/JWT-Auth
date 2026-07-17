@@ -7,6 +7,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 public record ProductResponse(
+
+        @Positive(message = "Product ID Can Not Be Negative")
+        Long id,
+
         @NotBlank(message = "Product Name Can Not Be Blanked.")
         String name,
 

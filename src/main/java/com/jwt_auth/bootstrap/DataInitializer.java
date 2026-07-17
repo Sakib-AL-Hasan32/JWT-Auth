@@ -31,26 +31,73 @@ public class DataInitializer implements CommandLineRunner {
     @Transactional
     public void run(String @NonNull ... args) {
 
+
+
+
+        // ============================================ //
+        // ============= ADD PERMISSIONS ============== //
+        // ============================================ //
+
         Permission profileRead = createPermissionIfNotExists(PermissionNames.PROFILE_READ);
         Permission addProduct = createPermissionIfNotExists(PermissionNames.ADD_PRODUCT);
         Permission getAllProduct = createPermissionIfNotExists(PermissionNames.GET_ALL_PRODUCT);
-        // Add New Permissions
+        Permission getProductById = createPermissionIfNotExists(PermissionNames.GET_PRODUCT_BY_ID);
+
+        // ============================================ //
+
+
+
+
+        // ============================================ //
+        // ================= ADD ROLES ================ //
+        // ============================================ //
 
         Role userRole = createRoleIfNotExists(RoleNames.USER);
         Role adminRole = createRoleIfNotExists(RoleNames.ADMIN);
-        // Add New Roles
+
+        // ============================================ //
+
+
+
+
+        // ============================================ //
+        // ============= USER PERMISSIONS ============= //
+        // ============================================ //
 
         assignPermission(userRole, profileRead);
         assignPermission(userRole, getAllProduct);
-        // Assign More Permission To User
+        assignPermission(userRole, getProductById);
+
+        // ============================================ //
+
+
+
+
+        // ============================================ //
+        // ============= ADMIN PERMISSIONS ============ //
+        // ============================================ //
 
         assignPermission(adminRole, profileRead);
         assignPermission(adminRole, addProduct);
         assignPermission(adminRole, getAllProduct);
-        // Assign More Permission To Admin
+        assignPermission(adminRole, getProductById);
+
+        // ============================================ //
+
+
+
+
+        // ============================================ //
+        // =============== ADD NEW ADMIN ============== //
+        // ============================================ //
 
         createAdminIfNotExists(adminRole);
-        // Create New Admin
+
+        // ============================================ //
+
+
+
+
     }
 
     private Role createRoleIfNotExists(String roleName) {
