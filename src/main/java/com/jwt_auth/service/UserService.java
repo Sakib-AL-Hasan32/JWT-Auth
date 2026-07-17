@@ -10,4 +10,5 @@ public interface UserService {
     ApiResponse<List<UserResponse>> getAllUsers();
     ApiResponse<UserResponse> getUserById(Long id);
     ApiResponse<UserResponse> addRole(RoleRequest roleRequest, Long id);
+    ApiResponse<UserResponse> deleteRole(RoleRequest roleRequest, Long id);
 }

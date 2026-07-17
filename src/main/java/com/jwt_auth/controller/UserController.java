@@ -34,4 +34,10 @@ public class UserController {
                                                               @PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.addRole(roleRequest, id));
     }
+
+    @PatchMapping(ApiEndpoints.User.DELETE_ROLE)
+    public ResponseEntity<ApiResponse<UserResponse>> deleteRole (@Valid @RequestBody RoleRequest roleRequest,
+                                                              @PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.deleteRole(roleRequest, id));
+    }
 }

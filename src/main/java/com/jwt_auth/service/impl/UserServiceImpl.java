@@ -13,7 +13,6 @@ import com.jwt_auth.repository.RoleRepository;
 import com.jwt_auth.repository.UserRepository;
 import com.jwt_auth.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.BadRequestException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -70,25 +69,13 @@ public class UserServiceImpl implements UserService {
     public ApiResponse<UserResponse> addRole(RoleRequest roleRequest, Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException(ApiMessages.Error.USER_NOT_FOUND));
-
-
-        System.out.println("User roles:");
-        user.getRoles().forEach(r ->
-                System.out.println(r.getId() + " - " + r.getName()));
         Role role = roleRepository.findByName(roleRequest.role())
                 .orElseThrow(() -> new ResourceNotFoundException(ApiMessages.Error.ROLE_NOT_FOUND));
-        System.out.println("Requested role: " + role.getName());
         boolean alreadyAssigned = user.getRoles().stream()
                 .anyMatch(r -> r.getName().equals(role.getName()));
-        System.out.println("Already assigned = " + alreadyAssigned);
         if (alreadyAssigned) {
             throw new IllegalArgumentException(ApiMessages.Error.ROLE_CONFLICT);
         }
-        user.getRoles().add(role);
-        System.out.println("After adding role:");
-
-        user.getRoles().forEach(r ->
-                System.out.println(r.getId() + " - " + r.getName()));
         userRepository.save(user);
         return ApiResponse.<UserResponse>builder()
                 .data(new UserResponse(
@@ -97,6 +84,36 @@ public class UserServiceImpl implements UserService {
                         user.getRoles()
                 ))
                 .message(ApiMessages.Success.ROLE_UPDATED)
+                .build();
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('" + PermissionNames.DELETE_ROLE + "')")
+    public ApiResponse<UserResponse> deleteRole(RoleRequest roleRequest, Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException(ApiMessages.Error.USER_NOT_FOUND));
+
+        Role role = roleRepository.findByName(roleRequest.role())
+                .orElseThrow(() -> new ResourceNotFoundException(ApiMessages.Error.ROLE_NOT_FOUND));
+
+        boolean assigned = user.getRoles().stream()
+                .anyMatch(r -> r.getName().equals(role.getName()));
+
+        if (!assigned) {
+            throw new IllegalArgumentException(ApiMessages.Error.ROLE_NOT_ASSIGNED);
+        }
+        if (user.getRoles().size() == 1) {
+            throw new IllegalArgumentException(ApiMessages.Error.CANNOT_REMOVE_LAST_ROLE);
+        }
+        user.getRoles().removeIf(r -> r.getName().equals(role.getName()));
+        userRepository.save(user);
+        return ApiResponse.<UserResponse>builder()
+                .data(new UserResponse(
+                        user.getUsername(),
+                        user.getEmail(),
+                        user.getRoles()
+                ))
+                .message(ApiMessages.Success.ROLE_REMOVED)
                 .build();
     }
 }

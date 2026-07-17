@@ -15,4 +15,5 @@ public final class PermissionNames {
     public static final String GET_ALL_USERS = "GET_ALL_USERS";
     public static final String GET_USER_BY_ID = "GET_USER_BY_ID";
     public static final String ADD_ROLE = "ADD_ROLE";
+    public static final String DELETE_ROLE = "DELETE_ROLE";
 }
