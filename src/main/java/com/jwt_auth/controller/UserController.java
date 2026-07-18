@@ -2,6 +2,7 @@ package com.jwt_auth.controller;
 
 import com.jwt_auth.constants.ApiEndpoints;
 import com.jwt_auth.dto.request.RoleRequest;
+import com.jwt_auth.dto.request.UserRequest;
 import com.jwt_auth.dto.response.UserResponse;
 import com.jwt_auth.dto.response.common.ApiResponse;
 import com.jwt_auth.service.UserService;
@@ -27,6 +28,11 @@ public class UserController {
     @GetMapping(ApiEndpoints.User.ID)
     public ResponseEntity<ApiResponse<UserResponse>> getUserById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUserById(id));
+    }
+
+    @GetMapping(ApiEndpoints.User.NAME)
+    public ResponseEntity<ApiResponse<UserResponse>> getUserByUsername(@RequestBody UserRequest userRequest) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getUserByUsername(userRequest));
     }
 
     @PatchMapping(ApiEndpoints.User.ADD_ROLE)

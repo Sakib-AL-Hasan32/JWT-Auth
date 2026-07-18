@@ -4,6 +4,7 @@ import com.jwt_auth.constants.ApiMessages;
 import com.jwt_auth.constants.PermissionNames;
 import com.jwt_auth.constants.RoleNames;
 import com.jwt_auth.dto.request.RoleRequest;
+import com.jwt_auth.dto.request.UserRequest;
 import com.jwt_auth.dto.response.UserResponse;
 import com.jwt_auth.dto.response.common.ApiResponse;
 import com.jwt_auth.entity.Role;
@@ -65,6 +66,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('" + PermissionNames.GET_USER_BY_USERNAME + "')")
+    public ApiResponse<UserResponse> getUserByUsername(UserRequest userRequest) {
+        User user = userRepository.findByUsername(userRequest.name())
+                .orElseThrow(() -> new UsernameNotFoundException(ApiMessages.Error.USER_NOT_FOUND));
+        UserResponse userResponse = new UserResponse(
+                user.getUsername(),
+                user.getEmail(),
+                user.getRoles()
+        );
+        return ApiResponse.<UserResponse>builder()
+                .data(userResponse)
+                .message(ApiMessages.Success.FETCHED_USER_BY_USERNAME)
+                .build();
+    }
+
+    @Override
     @PreAuthorize("hasAuthority('" + PermissionNames.ADD_ROLE + "')")
     public ApiResponse<UserResponse> addRole(RoleRequest roleRequest, Long id) {
         User user = userRepository.findById(id)
@@ -76,6 +93,7 @@ public class UserServiceImpl implements UserService {
         if (alreadyAssigned) {
             throw new IllegalArgumentException(ApiMessages.Error.ROLE_CONFLICT);
         }
+        user.getRoles().add(role);
         userRepository.save(user);
         return ApiResponse.<UserResponse>builder()
                 .data(new UserResponse(

@@ -13,6 +13,8 @@ public final class ApiMessages {
         public static final String PROFILE_FETCHED = "Successfully fetched profile";
         public static final String FETCHED_ALL_USERS = "Successfully fetched all users";
         public static final String FETCHED_USER_BY_ID = "Successfully fetched user by id";
+        public static final String FETCHED_USER_BY_USERNAME = "Successfully fetched user by username";
+
         public static final String ROLE_UPDATED = "Role updated successfully";
         public static final String ROLE_REMOVED = "Role removed successfully";
 

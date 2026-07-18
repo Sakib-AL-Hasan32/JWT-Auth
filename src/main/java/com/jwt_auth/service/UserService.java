@@ -1,6 +1,7 @@
 package com.jwt_auth.service;
 
 import com.jwt_auth.dto.request.RoleRequest;
+import com.jwt_auth.dto.request.UserRequest;
 import com.jwt_auth.dto.response.UserResponse;
 import com.jwt_auth.dto.response.common.ApiResponse;
 
@@ -11,4 +12,5 @@ public interface UserService {
     ApiResponse<UserResponse> getUserById(Long id);
     ApiResponse<UserResponse> addRole(RoleRequest roleRequest, Long id);
     ApiResponse<UserResponse> deleteRole(RoleRequest roleRequest, Long id);
+    ApiResponse<UserResponse> getUserByUsername(UserRequest userRequest);
 }
