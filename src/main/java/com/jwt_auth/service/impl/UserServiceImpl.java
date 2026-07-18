@@ -210,4 +210,20 @@ public class UserServiceImpl implements UserService {
                 .message(ApiMessages.Success.USER_UPDATED)
                 .build();
     }
+
+    @Override
+    @PreAuthorize("hasAuthority('" + PermissionNames.DELETE_USER + "')")
+    public ApiResponse<UserResponse> deleteUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException(ApiMessages.Error.USER_NOT_FOUND));
+        userRepository.delete(user);
+        return ApiResponse.<UserResponse>builder()
+                .data(new UserResponse(
+                        user.getUsername(),
+                        user.getEmail(),
+                        user.getRoles()
+                ))
+                .message(ApiMessages.Success.USER_DELETED)
+                .build();
+    }
 }

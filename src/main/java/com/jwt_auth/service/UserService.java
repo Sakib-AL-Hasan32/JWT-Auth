@@ -1,5 +1,6 @@
 package com.jwt_auth.service;
 
+import com.jwt_auth.constants.ApiMessages;
 import com.jwt_auth.dto.request.AdminAddUserRequest;
 import com.jwt_auth.dto.request.AdminUpdateUserRequest;
 import com.jwt_auth.dto.request.NameRequest;
@@ -18,4 +19,5 @@ public interface UserService {
     ApiResponse<UserResponse> getUserByUsername(NameRequest userRequest);
     ApiResponse<AdminAddUserResponse> addUser(AdminAddUserRequest adminAddUserRequest);
     ApiResponse<AdminUpdateUserResponse> updateUser(AdminUpdateUserRequest adminUpdateUserRequest, Long id);
+    ApiResponse<UserResponse> deleteUser(Long id);
 }

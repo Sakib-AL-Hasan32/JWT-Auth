@@ -60,4 +60,9 @@ public class UserController {
                                                                             @PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(adminUpdateUserRequest, id));
     }
+
+    @DeleteMapping(ApiEndpoints.User.DELETE_USER)
+    public ResponseEntity<ApiResponse<UserResponse>> deleteUser (@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.deleteUser(id));
+    }
 }
