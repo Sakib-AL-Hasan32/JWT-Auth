@@ -1,8 +1,10 @@
 package com.jwt_auth.service;
 
 import com.jwt_auth.dto.request.AdminAddUserRequest;
+import com.jwt_auth.dto.request.AdminUpdateUserRequest;
 import com.jwt_auth.dto.request.NameRequest;
 import com.jwt_auth.dto.response.AdminAddUserResponse;
+import com.jwt_auth.dto.response.AdminUpdateUserResponse;
 import com.jwt_auth.dto.response.UserResponse;
 import com.jwt_auth.dto.response.common.ApiResponse;
 
@@ -15,4 +17,5 @@ public interface UserService {
     ApiResponse<UserResponse> deleteRole(NameRequest roleRequest, Long id);
     ApiResponse<UserResponse> getUserByUsername(NameRequest userRequest);
     ApiResponse<AdminAddUserResponse> addUser(AdminAddUserRequest adminAddUserRequest);
+    ApiResponse<AdminUpdateUserResponse> updateUser(AdminUpdateUserRequest adminUpdateUserRequest, Long id);
 }

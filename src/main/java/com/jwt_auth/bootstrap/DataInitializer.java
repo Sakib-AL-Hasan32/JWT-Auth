@@ -126,7 +126,6 @@ public class DataInitializer implements CommandLineRunner {
         assignPermission(managerRole, updateProduct);
         assignPermission(managerRole, getAllUsers);
         assignPermission(managerRole, getUserById);
-        assignPermission(managerRole, updateUser);
         assignPermission(managerRole, getUserByUsername);
 
         // ============================================ //

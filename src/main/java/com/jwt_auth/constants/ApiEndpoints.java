@@ -37,5 +37,6 @@ public final class ApiEndpoints {
         public static final String ADD_ROLE =  "/add-role/{id}";
         public static final String DELETE_ROLE =  "/delete-role/{id}";
         public static final String ADD_USER = "/add-user";
+        public static final String UPDATE_USER = "/update-user/{id}";
     }
 }

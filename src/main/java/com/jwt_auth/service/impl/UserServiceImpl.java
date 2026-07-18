@@ -4,8 +4,10 @@ import com.jwt_auth.constants.ApiMessages;
 import com.jwt_auth.constants.PermissionNames;
 import com.jwt_auth.constants.RoleNames;
 import com.jwt_auth.dto.request.AdminAddUserRequest;
+import com.jwt_auth.dto.request.AdminUpdateUserRequest;
 import com.jwt_auth.dto.request.NameRequest;
 import com.jwt_auth.dto.response.AdminAddUserResponse;
+import com.jwt_auth.dto.response.AdminUpdateUserResponse;
 import com.jwt_auth.dto.response.UserResponse;
 import com.jwt_auth.dto.response.common.ApiResponse;
 import com.jwt_auth.entity.Role;
@@ -176,6 +178,36 @@ public class UserServiceImpl implements UserService {
                         user.getRoles()
                 ))
                 .message(ApiMessages.Success.USER_ADDED)
+                .build();
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('" + PermissionNames.UPDATE_USER + "')")
+    public ApiResponse<AdminUpdateUserResponse> updateUser(AdminUpdateUserRequest adminUpdateUserRequest, Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException(ApiMessages.Error.USER_NOT_FOUND));
+        user.setFirstName(adminUpdateUserRequest.firstName());
+        user.setLastName(adminUpdateUserRequest.lastName());
+        user.setEmail(adminUpdateUserRequest.email());
+        user.setPassword(passwordEncoder.encode(adminUpdateUserRequest.password()));
+        Set<Role> roles = new LinkedHashSet<>();
+        for (Role role : adminUpdateUserRequest.roles()) {
+            Role getRole = roleRepository.findByName(role.getName())
+                    .orElseThrow(() -> new ResourceNotFoundException(ApiMessages.Error.ROLE_NOT_FOUND));
+            roles.add(getRole);
+        }
+        user.setRoles(roles);
+        userRepository.save(user);
+        return ApiResponse.<AdminUpdateUserResponse>builder()
+                .data(new AdminUpdateUserResponse(
+                        user.getId(),
+                        user.getUsername(),
+                        user.getEmail(),
+                        user.getFirstName(),
+                        user.getLastName(),
+                        user.getRoles()
+                ))
+                .message(ApiMessages.Success.USER_UPDATED)
                 .build();
     }
 }

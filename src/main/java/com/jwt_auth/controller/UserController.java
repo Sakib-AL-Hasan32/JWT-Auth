@@ -2,8 +2,10 @@ package com.jwt_auth.controller;
 
 import com.jwt_auth.constants.ApiEndpoints;
 import com.jwt_auth.dto.request.AdminAddUserRequest;
+import com.jwt_auth.dto.request.AdminUpdateUserRequest;
 import com.jwt_auth.dto.request.NameRequest;
 import com.jwt_auth.dto.response.AdminAddUserResponse;
+import com.jwt_auth.dto.response.AdminUpdateUserResponse;
 import com.jwt_auth.dto.response.UserResponse;
 import com.jwt_auth.dto.response.common.ApiResponse;
 import com.jwt_auth.service.UserService;
@@ -51,5 +53,11 @@ public class UserController {
     @PostMapping(ApiEndpoints.User.ADD_USER)
     public ResponseEntity<ApiResponse<AdminAddUserResponse>> addUser (@Valid @RequestBody AdminAddUserRequest adminAddUserRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.addUser(adminAddUserRequest));
+    }
+
+    @PutMapping(ApiEndpoints.User.UPDATE_USER)
+    public ResponseEntity<ApiResponse<AdminUpdateUserResponse>> updateUser (@Valid @RequestBody AdminUpdateUserRequest adminUpdateUserRequest,
+                                                                            @PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(adminUpdateUserRequest, id));
     }
 }
