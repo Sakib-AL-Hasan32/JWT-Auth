@@ -14,6 +14,7 @@ public final class ApiMessages {
         public static final String FETCHED_ALL_USERS = "Successfully fetched all users";
         public static final String FETCHED_USER_BY_ID = "Successfully fetched user by id";
         public static final String FETCHED_USER_BY_USERNAME = "Successfully fetched user by username";
+        public static final String USER_ADDED = "Successfully added user";
 
         public static final String ROLE_UPDATED = "Role updated successfully";
         public static final String ROLE_REMOVED = "Role removed successfully";
@@ -34,6 +35,8 @@ public final class ApiMessages {
         public static final String ROLE_CONFLICT = "User already has this role";
         public static final String ROLE_NOT_ASSIGNED = "Role not assigned";
         public static final String CANNOT_REMOVE_LAST_ROLE = "Cannot remove last role";
+        public static final String USER_ALREADY_EXISTS = "User already exists";
+        public static final String EMAIL_ALREADY_EXISTS = "Email already exists";
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)

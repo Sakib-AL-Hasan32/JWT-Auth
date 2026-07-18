@@ -2,8 +2,8 @@ package com.jwt_auth.service.impl;
 
 import com.jwt_auth.constants.ApiMessages;
 import com.jwt_auth.constants.PermissionNames;
+import com.jwt_auth.dto.request.NameRequest;
 import com.jwt_auth.dto.request.ProductRequest;
-import com.jwt_auth.dto.request.SearchProductRequest;
 import com.jwt_auth.dto.response.ProductResponse;
 import com.jwt_auth.dto.response.common.ApiResponse;
 import com.jwt_auth.entity.Product;
@@ -90,7 +90,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @PreAuthorize("hasAuthority('" + PermissionNames.GET_PRODUCT_BY_NAME + "')")
-    public ApiResponse<List<ProductResponse>> getProductByName(SearchProductRequest searchProductRequest) {
+    public ApiResponse<List<ProductResponse>> getProductByName(NameRequest searchProductRequest) {
         List<Product> productList = productRepository.findByNameContainingIgnoreCase(searchProductRequest.name());
         if(productList.isEmpty()) {
             throw new ResourceNotFoundException(ApiMessages.Error.PRODUCT_NOT_FOUND);
